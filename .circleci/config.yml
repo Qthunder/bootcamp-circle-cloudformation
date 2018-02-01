@@ -13,7 +13,7 @@ jobs:
     working_directory: ~/bootcamp-circle-cloudformation
     steps:
        - checkout
-       - run: build-and-deploy-to-aws.sh GabrielScalingGroup gabrielPrefix
+       - run: ./build-and-deploy-to-aws.sh GabrielScalingGroup gabrielPrefix
 
 workflows:
   version: 2
