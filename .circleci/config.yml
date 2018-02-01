@@ -1,31 +1,30 @@
-
 version: 2
-
 jobs:
   test:
-      docker:
-        - image: adambene/circleci-openjdk-awscli
-      working_directory: ~/bootcamp-circle-cloudformation
-      steps:
-        - checkout
-        - run: sbt test
+    docker:
+      - image: adambene/circleci-openjdk-awscli
+    working_directory: ~/bootcamp-circle-cloudformation
+    steps:
+      - checkout
+      - run: sbt test
   deploy:
-      docker:
-        - image: adambene/circleci-openjdk-awscli
-      working_directory: ~/bootcamp-circle-cloudformation
-      steps:
-         - checkout
-         - run: build-and-deploy-to-aws.sh GabrielScalingGroup gabrielPrefix
+    docker:
+      - image: adambene/circleci-openjdk-awscli
+    working_directory: ~/bootcamp-circle-cloudformation
+    steps:
+       - checkout
+       - run: build-and-deploy-to-aws.sh GabrielScalingGroup gabrielPrefix
 
 workflows:
-build_accept_delpoy:
-  jobs:
-    - test
-    - deploy:
-        filters:
-          branches:
-            only:
-             - master
-        requires:
-          - test
+  version: 2
+  test-and-deploy:
+    jobs:
+      - test
+      - deploy:
+          filters:
+            branches:
+              only:
+               - master
+          requires:
+            - test
 
