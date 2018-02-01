@@ -1,9 +1,22 @@
+workflows:
 version: 2
-jobs:
-  build:
-    docker:
-      - image: adambene/circleci-openjdk-awscli
-    working_directory: ~/bootcamp-circle-cloudformation
-    steps:
-      - checkout
-      - run: sbt test
+build_accept_delpoy:
+  jobs:
+    - test:
+      docker:
+        - image: adambene/circleci-openjdk-awscli
+      working_directory: ~/bootcamp-circle-cloudformation
+      steps:
+        - checkout
+        - run: sbt test
+    - deploy:
+        docker:
+          - image: adambene/circleci-openjdk-awscli
+        working_directory: ~/bootcamp-circle-cloudformation
+        steps:
+           - run: build-and-deploy-to-aws.sh "GabrielScalingGroup" "gabrielPrefix"
+        filters:
+          branches:
+            only:
+              - master
+
